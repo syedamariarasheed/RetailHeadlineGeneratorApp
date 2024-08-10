@@ -22,7 +22,7 @@ class HeadlineViewModel : ViewModel() {
 
     private val config = generationConfig {
         temperature = 0.2f // Deterministic Output
-        maxOutputTokens = 150
+        maxOutputTokens = 200
     }
 
     private val generativeModel = GenerativeModel(
