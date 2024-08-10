@@ -21,8 +21,8 @@ class HeadlineViewModel : ViewModel() {
         _uiState.asStateFlow()
 
     private val config = generationConfig {
-        temperature = 0f // Deterministic Output
-        maxOutputTokens = 200
+        temperature = 0.2f // Deterministic Output
+        maxOutputTokens = 150
     }
 
     private val generativeModel = GenerativeModel(
@@ -38,7 +38,8 @@ class HeadlineViewModel : ViewModel() {
         "text must be in roman urdu not in urdu",
         "headline must have fun element",
         "only return headline text which I directly show it to user",
-        "only mention discounted item name which is suggested"
+        "only mention discounted item name which is suggested",
+        "also write fun quote regarding the category of result"
     )
 
     private val instruction =
