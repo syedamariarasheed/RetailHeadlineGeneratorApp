@@ -6,6 +6,7 @@ import com.example.myfirstaiapp.data.discountedItems
 import com.example.myfirstaiapp.data.pastHistory
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
+import com.google.ai.client.generativeai.type.generationConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,12 +20,18 @@ class HeadlineViewModel : ViewModel() {
     val uiState: StateFlow<UiState> =
         _uiState.asStateFlow()
 
+    private val config = generationConfig {
+        temperature = 0f // Deterministic Output
+        maxOutputTokens = 200
+    }
+
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash",
-        apiKey = BuildConfig.apiKey
+        apiKey = BuildConfig.apiKey,
+        generationConfig = config
     )
 
-    private val parameters = arrayListOf(
+    private val outputParameters = arrayListOf(
         "check best discounted pricing and similar category not item which he bought earlier and",
         "best discount = price - discountedPrice",
         "send me only one best option",
@@ -37,7 +44,7 @@ class HeadlineViewModel : ViewModel() {
     private val instruction =
         "Give me daily headline text according to past history of user buying which is = $pastHistory " +
                 "retrieve best discounted price item discounted data is $discountedItems" +
-                " here are some parameters which needs to be fulfilled = $parameters"
+                " here are some outputParameters which needs to be fulfilled = $outputParameters"
 
 
     fun sendPrompt() {
